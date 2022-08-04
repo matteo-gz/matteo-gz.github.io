@@ -1,0 +1,117 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>go源码编译 | matteo's blog</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="学习go的源码编译
+下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
+git checkout release-branch.go1.18 目录结构
+$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3."><meta name=generator content="Hugo 0.101.0"><meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/ananke/css/main.min.css><meta property="og:title" content="go源码编译"><meta property="og:description" content="学习go的源码编译
+下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
+git checkout release-branch.go1.18 目录结构
+$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3."><meta property="og:type" content="article"><meta property="og:url" content="https://matteo-gz.github.io/posts/my-gosrc-build-post/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-08-04T11:47:53+08:00"><meta property="article:modified_time" content="2022-08-04T11:47:53+08:00"><meta itemprop=name content="go源码编译"><meta itemprop=description content="学习go的源码编译
+下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
+git checkout release-branch.go1.18 目录结构
+$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3."><meta itemprop=datePublished content="2022-08-04T11:47:53+08:00"><meta itemprop=dateModified content="2022-08-04T11:47:53+08:00"><meta itemprop=wordCount content="280"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="go源码编译"><meta name=twitter:description content="学习go的源码编译
+下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
+git checkout release-branch.go1.18 目录结构
+$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3."></head><body class="ma0 avenir bg-near-white"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">matteo's blog</a><div class="flex-l items-center"><div class=ananke-socials></div></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">go源码编译</h1><time class="f6 mv4 dib tracked" datetime=2022-08-04T11:47:53+08:00>August 4, 2022</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><blockquote><p>学习go的源码编译</p></blockquote><h4 id=下载源码仓库>下载源码仓库</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>git clone git@github.com:golang/go.git
+</span></span></code></pre></div><p>我选择了其中一个分支 <code>release-branch.go1.18</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>git checkout release-branch.go1.18
+</span></span></code></pre></div><p>目录结构</p><pre tabindex=0><code>$ tree -d -L 2
+.
+├── api
+├── bin
+├── doc
+├── lib
+│   └── time
+├── misc
+│   ├── android
+│   ├── arm
+│   ├── cgo
+│   ├── chrome
+│   ├── ios
+│   ├── linkcheck
+│   ├── reboot
+│   ├── swig
+│   ├── trace
+│   └── wasm
+├── pkg
+│   ├── darwin_arm64
+│   ├── include
+│   ├── obj
+│   └── tool
+├── src
+│   ├── archive
+│   ├── bufio
+│   ├── builtin
+│   ├── bytes
+│   ├── cmd
+│   ├── compress
+│   ├── container
+│   ├── context
+│   ├── crypto
+│   ├── database
+│   ├── debug
+│   ├── embed
+│   ├── encoding
+│   ├── errors
+│   ├── expvar
+│   ├── flag
+│   ├── fmt
+│   ├── go
+│   ├── hash
+│   ├── html
+│   ├── image
+│   ├── index
+│   ├── internal
+│   ├── io
+│   ├── log
+│   ├── math
+│   ├── mime
+│   ├── net
+│   ├── os
+│   ├── path
+│   ├── plugin
+│   ├── reflect
+│   ├── regexp
+│   ├── runtime
+│   ├── sort
+│   ├── strconv
+│   ├── strings
+│   ├── sync
+│   ├── syscall
+│   ├── testdata
+│   ├── testing
+│   ├── text
+│   ├── time
+│   ├── unicode
+│   ├── unsafe
+│   └── vendor
+└── test
+    ├── abi
+    ├── alias3.dir
+    ├── asmhdr.dir
+    ├── bench
+    ├── chan
+    ├── closure3.dir
+    ├── closure5.dir
+    ├── codegen
+    ├── ddd2.dir
+    ├── dwarf
+    ├── fixedbugs
+    ├── import2.dir
+    ├── import4.dir
+    ├── interface
+    ├── intrinsic.dir
+    ├── ken
+    ├── linkname.dir
+    ├── method4.dir
+    ├── oldescape_linkname.dir
+    ├── retjmp.dir
+    ├── runtime
+    ├── stress
+    ├── syntax
+    ├── typeparam
+    └── uintptrescapes.dir
+
+94 directories
+</code></pre><p>假设我要编译<code>src/cmd/trace</code>这个pkg</p><pre tabindex=0><code>#进入目录
+cd src/cmd/trace
+# run下
+go run ./...
+</code></pre><p>此时是编译失败的,在<code>项目根目录</code>执行<code>./src/make.bash</code>脚本,</p><p>将会在<code>./bin</code>目录生成调试源码用的编译器,</p><p>再将<code>GOROOT</code>变量指向<code>项目根目录</code>，此时再编译就正常了</p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://matteo-gz.github.io/>&copy; matteo's blog 2022</a><div><div class=ananke-socials></div></div></div></footer></body></html>
