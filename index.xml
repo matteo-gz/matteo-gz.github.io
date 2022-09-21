@@ -3,7 +3,7 @@ tcoline.com-汇编语言 tcoline.com-汇编语言
 这个网站的教程也不错,纯中文
 w3c教程 https://www.w3cschool.cn/assembly/
 函数调用原理 https://gitbook.coder.cat/function-call-principle/
-学习记录 目录 编程语言级别:c语言-&gt;汇编语言-&gt;机器语言 x86-64汇编介绍 冯诺伊曼架构介绍 主存 寄存器 汇编函数调用过程 主存 0000000000000000 ... TEXT RODATA DATA BSS HEAP STACK ... FFFFFFFFFFFFFFFF 术语备注 Data Registers
+学习记录 目录 编程语言级别:c语言-&gt;汇编语言-&gt;机器语言 x86-64汇编介绍 冯诺伊曼架构介绍 主存 寄存器 汇编函数调用过程 主存 0000000000000000 ... TEXT RODATA DATA BSS HEAP STACK ... FFFFFFFFFFFFFFFF 备注 Data Registers
 RAX: register accumulator // R&quot;注册&quot;意思 RBX:register base RCX:register count RDX:register data Data Registers item detail
 RAX: register accumulator // R&quot;register&quot; x &ldquo;extended&rdquo; [0,63] EAX: extended accumulator // E &ldquo;extended｜enhanced&rdquo; [0,31] AX: accumulator // [0,15] AH :accumulator higher // [8,15] AL :accumulator lower // [0,7] cont.]]></description></item><item><title>golang-mysql包</title><link>https://matteo-gz.github.io/posts/gomysql/</link><pubDate>Fri, 02 Sep 2022 10:30:09 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gomysql/</guid><description>golang原生的mysql包是https://github.com/go-sql-driver/mysql
 其中DSN (Data Source Name)格式username:password@protocol(address)/dbname?param=value
