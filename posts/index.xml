@@ -1,4 +1,23 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 07 Aug 2023 12:23:04 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>聊天系统设计调研</title><link>https://matteo-gz.github.io/posts/im/</link><pubDate>Mon, 07 Aug 2023 12:23:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/im/</guid><description>总体架构分层
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 07 Aug 2023 15:28:13 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>go pkg包设计</title><link>https://matteo-gz.github.io/posts/component/</link><pubDate>Mon, 07 Aug 2023 15:28:13 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/component/</guid><description><![CDATA[设计考虑 以下是个人的建议,随便看看了解下
+context支持 一般入参数context是第一个参数,提供了timeout机制
+logger接口定义 在组件的初始化时,将使用方的日志实例进行接口约束,
+要求实现其debug,error级别method.
+可以参考gorm的logger设计
+hook注入 方便使用方对metric的收集,可以参考redis hook设计
+布局了解 这里只是提供参考建议
+go官方 https://github.com/golang-standards/project-layout 知道internal目录对内部系统的保护
+链接 https://go.dev/doc/go1.4#internalpackages 跨平台支持 查看支持平台
+go tool dist list 条件编译约束
+//go:build (linux &amp;&amp; 386) || (darwin &amp;&amp; !cgo) https://pkg.go.dev/cmd/go#hdr-Build_constraints
+linters集成 https://golangci-lint.run/ 提高代码质量
+版本约束 具体查看 https://go.dev/ref/mod#versions
+依赖注入 https://github.com/google/wire
+使得依赖关系变得整洁
+参数配置 Functional Options Pattern,代码优雅
+IDL https://protobuf.dev/ 利用protobuf提供接口和配置的定义.
+验证项目得分 https://goreportcard.com/
+评估项含
+gofmt go vet go lint gocyclo ]]></description></item><item><title>聊天系统设计调研</title><link>https://matteo-gz.github.io/posts/im/</link><pubDate>Mon, 07 Aug 2023 12:23:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/im/</guid><description>总体架构分层
 接入层,无状态 逻辑层 存储层 这里是参考了陌陌设计
 连接层 这里有2种方案选择
 WebSocket MQTT 关于MQTT,有EMQX中间件.
@@ -112,7 +131,4 @@ Scalable Go Scheduler Design Doc Dmitry Vyukov dvyukov@google.com May 2, 2012 �
 当前实现有什么问题：
 单一全局互斥锁（Sched.Lock）和集中状态。互斥锁保护所有与 goroutine 相关的操作（创建、完成、重新调度等）。
 Goroutine (G) 切换 (G.nextg)。工作线程 (M&amp;rsquo;s) 经常在彼此之间切换可运行的 goroutine，这可能会导致延迟增加和额外开销。每个 M 必须能够执行任何可运行的 G，尤其是刚刚创建 G 的 M。
-每个M内存缓存（M.mcache）。内存缓存和其他缓存（堆栈分配）与所有 M 相关联，而它们只需要与 M 正在运行的 Go 代码相关联（在 syscall 内部阻塞的 M 不需要 mcache）。运行的 Go 代码的M 与所有 M 之间的比率可以高达 1:100。这会导致过多的资源消耗（每个 MCache 最多可吸收 2M）和较差的数据局部性。</description></item><item><title>go源码编译</title><link>https://matteo-gz.github.io/posts/my-gosrc-build-post/</link><pubDate>Thu, 04 Aug 2022 11:47:53 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/my-gosrc-build-post/</guid><description>学习go的源码编译
-下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
-git checkout release-branch.go1.18 目录结构
-$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3.</description></item></channel></rss>
+每个M内存缓存（M.mcache）。内存缓存和其他缓存（堆栈分配）与所有 M 相关联，而它们只需要与 M 正在运行的 Go 代码相关联（在 syscall 内部阻塞的 M 不需要 mcache）。运行的 Go 代码的M 与所有 M 之间的比率可以高达 1:100。这会导致过多的资源消耗（每个 MCache 最多可吸收 2M）和较差的数据局部性。</description></item></channel></rss>
