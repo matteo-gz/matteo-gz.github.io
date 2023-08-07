@@ -1,4 +1,24 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 06 May 2023 19:31:52 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>体验switch游戏</title><link>https://matteo-gz.github.io/posts/switchgame/</link><pubDate>Sat, 06 May 2023 19:31:52 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/switchgame/</guid><description>主机游戏 steam的单机游戏体验过一段时间后,随后了解到还有塞尔达传说王国之泪这样的游戏存在,有别于艾尔登法环这种 但是他只能在任天堂的switch上可以下载游玩,有别于pc游戏是主机游戏来的.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 Jul 2023 13:03:09 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>go微服务框架使用总结</title><link>https://matteo-gz.github.io/posts/goframe/</link><pubDate>Tue, 18 Jul 2023 13:03:09 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/goframe/</guid><description>记录下自己使用下来的go微服务框架,kratos go-zero kitex.
+kratos bilibili公司出品的框架,当年公司内部代码泄漏,现在开源优化已经到了v2版本.
+参考了DDD,Clean Architecture 设计理念.
+项目结构清晰,每一层级的角色定位清晰,没有全局变量污染,还引入了wire进行依赖倒置.
+data层暴露了clean up函数对资源句柄进行回收.
+框架层与业务层解耦,框架生命周期感知清晰.
+组件开放接口设计,扩展性强
+服务使用的是GRPC+Protocol Buffer, 同一服务进程下暴露了GRPC端口和HTTP端口.
+HTTP是通过protoc组件protoc-gen-go-http反射路由到同一RPC方法.
+框架整体设计比较轻量,适合自己组合微服务方案.
+总结 适合团队有架构组的人使用,前期需要自己组合方案,整合组件.后期基本完善,使用体验良好. HTTP层建议使用gin框架,因为protoc-gen-go-http适合开发阶段调试用,重度需求满足不了,自己做适配一路都是新坑.
+Go-zero 一个公司CTO主推项目,加入了CNCF.
+HTTP单独部署一个项目,路由方法定义通过编写.api后缀文件(Go-zero定义的语法)实现.
+他们的设计理念是实用性.
+总结 生产上能用。对于定制化业务,直接fork他们官方的cli工具,然后公司内部修改维护该仓库.
+Kitex 字节跳动公司的开源项目,分RPC框架Kitex和HTTP框架Hertz.
+2个框架是2个团队的产物,设计规范不一致.
+框架替换原有了go/net设计,实现高性能.(生产稳定性需要查阅官方资料验证)
+IDL支持Thrift,官方对Thrift的支持度很高,因为他们内部使用Thrift,但也支持Protobuf.
+他们的设计理念是高性能
+总结 Kitex只是cloudwego组织下子项目,Thrift不是特别吸引我, 希望cloudwego/netpoll能封装成一个适配性高组件.</description></item><item><title>体验switch游戏</title><link>https://matteo-gz.github.io/posts/switchgame/</link><pubDate>Sat, 06 May 2023 19:31:52 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/switchgame/</guid><description>主机游戏 steam的单机游戏体验过一段时间后,随后了解到还有塞尔达传说王国之泪这样的游戏存在,有别于艾尔登法环这种 但是他只能在任天堂的switch上可以下载游玩,有别于pc游戏是主机游戏来的.
 模拟器 pc上也存在着模拟switch游戏环境的模拟软件,yuzu模拟器和ryujinx模拟器,接下来我将体验下ryujinx模拟器上游玩主机游戏
 ryujinx模拟器体验 下载 下载模拟器https://github.com/Ryujinx/release-channel-master/releases
 我选了当前最新的1.1.762版本 https://github.com/Ryujinx/release-channel-master/releases/download/1.1.762/test-ava-ryujinx-1.1.762-win_x64.zip
