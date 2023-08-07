@@ -1,4 +1,31 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 Jul 2023 13:03:09 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>go微服务框架使用总结</title><link>https://matteo-gz.github.io/posts/goframe/</link><pubDate>Tue, 18 Jul 2023 13:03:09 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/goframe/</guid><description>记录下自己使用下来的go微服务框架,kratos go-zero kitex.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 07 Aug 2023 12:23:04 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>聊天系统设计调研</title><link>https://matteo-gz.github.io/posts/im/</link><pubDate>Mon, 07 Aug 2023 12:23:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/im/</guid><description>总体架构分层
+接入层,无状态 逻辑层 存储层 这里是参考了陌陌设计
+连接层 这里有2种方案选择
+WebSocket MQTT 关于MQTT,有EMQX中间件.
+消息上线可以走HTTP接口,即客户端发给服务端消息
+消息下行可以走EMQX订阅主题,即服务端推送消息给客户端
+连接层属于无状态,支持水平扩展.
+逻辑层 通用消息格式定制
+以及业务路由分发决策
+设计规则
+不丢消息 需要业务ACK机制
+消息去重 服务端与客户端都需要做到
+时序一致性 可以用snowflake算法.
+利用局部性原理减少id生成器压力,有利于水平扩展
+缓存设计 由于实时系统,基本上有一层cache,类似内核系统的buffer。
+多级缓冲,面向c端场景的话一般链路不会太长,而且要考虑数据回种,分布式一致性挑战.
+大概local cache -&amp;gt; redis （读写分离)-&amp;gt; database（读写分离)
+其他考虑场景 接入APP推送 接入风控 数据多端同步 多条消息打包与压缩格式设计 万人大群的数据扇出 明星突发性空降某频道 数据埋点监控 系统自动扩容 存储层 离线消息 如果需求量不大,Mysql即可以解决.
+聊天应用的读写比例大概是1:1.
+数据库 Cassandra
+Discord公司有在用.偏向AP场景
+HBase
+Facebook公司有在用.偏向CP场景
+个人想法 前期用Mysql,但是封装一层接口,为后期数据库迁移作准备.
+大数据库选择要还看云数据库商支持程度,说不定还有其他云产品合适.
+对象存储 minio
+消息队列 rabbitMQ比较适合业务,
+但是追求高吞吐的kafka,自己必须封装多一层机制来保证业务的一致性.</description></item><item><title>go微服务框架使用总结</title><link>https://matteo-gz.github.io/posts/goframe/</link><pubDate>Tue, 18 Jul 2023 13:03:09 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/goframe/</guid><description>记录下自己使用下来的go微服务框架,kratos go-zero kitex.
 kratos bilibili公司出品的框架,当年公司内部代码泄漏,现在开源优化已经到了v2版本.
 参考了DDD,Clean Architecture 设计理念.
 项目结构清晰,每一层级的角色定位清晰,没有全局变量污染,还引入了wire进行依赖倒置.
@@ -88,6 +115,4 @@ Goroutine (G) 切换 (G.nextg)。工作线程 (M&amp;rsquo;s) 经常在彼此之
 每个M内存缓存（M.mcache）。内存缓存和其他缓存（堆栈分配）与所有 M 相关联，而它们只需要与 M 正在运行的 Go 代码相关联（在 syscall 内部阻塞的 M 不需要 mcache）。运行的 Go 代码的M 与所有 M 之间的比率可以高达 1:100。这会导致过多的资源消耗（每个 MCache 最多可吸收 2M）和较差的数据局部性。</description></item><item><title>go源码编译</title><link>https://matteo-gz.github.io/posts/my-gosrc-build-post/</link><pubDate>Thu, 04 Aug 2022 11:47:53 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/my-gosrc-build-post/</guid><description>学习go的源码编译
 下载源码仓库 git clone git@github.com:golang/go.git 我选择了其中一个分支 release-branch.go1.18
 git checkout release-branch.go1.18 目录结构
-$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3.</description></item><item><title>创建自己的github博客</title><link>https://matteo-gz.github.io/posts/my-first-post/</link><pubDate>Thu, 04 Aug 2022 09:48:40 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/my-first-post/</guid><description>准备工作
-work flow
-github page github page hugo hugo官网 教程 如何使用Hugo在GitHub Pages上搭建免费个人网站 自动化教程 Hugo使用Github Action自动部署博客到Github Pages</description></item></channel></rss>
+$ tree -d -L 2 . ├── api ├── bin ├── doc ├── lib │ └── time ├── misc │ ├── android │ ├── arm │ ├── cgo │ ├── chrome │ ├── ios │ ├── linkcheck │ ├── reboot │ ├── swig │ ├── trace │ └── wasm ├── pkg │ ├── darwin_arm64 │ ├── include │ ├── obj │ └── tool ├── src │ ├── archive │ ├── bufio │ ├── builtin │ ├── bytes │ ├── cmd │ ├── compress │ ├── container │ ├── context │ ├── crypto │ ├── database │ ├── debug │ ├── embed │ ├── encoding │ ├── errors │ ├── expvar │ ├── flag │ ├── fmt │ ├── go │ ├── hash │ ├── html │ ├── image │ ├── index │ ├── internal │ ├── io │ ├── log │ ├── math │ ├── mime │ ├── net │ ├── os │ ├── path │ ├── plugin │ ├── reflect │ ├── regexp │ ├── runtime │ ├── sort │ ├── strconv │ ├── strings │ ├── sync │ ├── syscall │ ├── testdata │ ├── testing │ ├── text │ ├── time │ ├── unicode │ ├── unsafe │ └── vendor └── test ├── abi ├── alias3.</description></item></channel></rss>
