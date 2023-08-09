@@ -1,14 +1,11 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Aug 2023 19:31:19 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>音频转文字 Whisper</title><link>https://matteo-gz.github.io/posts/whisper/</link><pubDate>Tue, 08 Aug 2023 19:31:19 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/whisper/</guid><description>简介 一个音频转文本的模型 https://github.com/openai/whisper
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Aug 2023 19:31:19 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>音频转文字 Whisper</title><link>https://matteo-gz.github.io/posts/whisper/</link><pubDate>Tue, 08 Aug 2023 19:31:19 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/whisper/</guid><description><![CDATA[简介 一个音频转文本的模型 https://github.com/openai/whisper
 依赖 python ffmpeg 命令行使用 验证GPU 在venv环境下 输入whisper -h
-&amp;ndash;device # 如果默认是cpu 则证明cuda安装失败
-重装torch gpu版本
+&ndash;device # 如果默认是cpu 则证明cuda安装失败
+# 这样也能验证cuda是否安装了 python -c &#34;import torch; print(torch.version.cuda)&#34; 重装torch gpu版本
 # 卸载纯cpu版 pip uninstall torch # clean cache pip cache purge # copy from https://pytorch.org/get-started/locally/ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 再次验证 whisper -h
-&amp;ndash;device # 如果默认是cuda 则证明成功
+&ndash;device # 如果默认是cuda 则证明成功
 运行demo
-whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.com/Const-me/Whisper
-用的模型是 https://huggingface.co/ggerganov/whisper.cpp/tree/main
-执行任务速度有所提升,但是损失了辨别成功率
-声音提取器 非常的强大,用于人声,BGM提取</description></item><item><title>咒语生成图片 Stable Diffusion web UI</title><link>https://matteo-gz.github.io/posts/stablediffusionwebui/</link><pubDate>Tue, 08 Aug 2023 11:20:56 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/stablediffusionwebui/</guid><description>简介 旨在个人快速回忆Stable Diffusion相关关系
+whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.]]></description></item><item><title>咒语生成图片 Stable Diffusion web UI</title><link>https://matteo-gz.github.io/posts/stablediffusionwebui/</link><pubDate>Tue, 08 Aug 2023 11:20:56 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/stablediffusionwebui/</guid><description>简介 旨在个人快速回忆Stable Diffusion相关关系
 Stable Diffusion 是一个深度学习,文转图模型.
 Stable Diffusion web UI 即面向用户提供界面操作工具, 链接为
 https://github.com/AUTOMATIC1111/stable-diffusion-webui

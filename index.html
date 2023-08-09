@@ -3,14 +3,11 @@
 <i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class="page home" data-home=posts><div class=home-profile><div class=home-subtitle><div id=id-1 class=typeit></div></div><div class=links></div></div><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/whisper/>音频转文字 Whisper</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-08>2023-08-08</time></span></div><div class=content>简介 一个音频转文本的模型 https://github.com/openai/whisper
 依赖 python ffmpeg 命令行使用 验证GPU 在venv环境下 输入whisper -h
 &ndash;device # 如果默认是cpu 则证明cuda安装失败
-重装torch gpu版本
+# 这样也能验证cuda是否安装了 python -c "import torch; print(torch.version.cuda)" 重装torch gpu版本
 # 卸载纯cpu版 pip uninstall torch # clean cache pip cache purge # copy from https://pytorch.org/get-started/locally/ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 再次验证 whisper -h
 &ndash;device # 如果默认是cuda 则证明成功
 运行demo
-whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.com/Const-me/Whisper
-用的模型是 https://huggingface.co/ggerganov/whisper.cpp/tree/main
-执行任务速度有所提升,但是损失了辨别成功率
-声音提取器 非常的强大,用于人声,BGM提取</div><div class=post-footer><a href=/posts/whisper/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/stablediffusionwebui/>咒语生成图片 Stable Diffusion web UI</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-08>2023-08-08</time></span></div><div class=content>简介 旨在个人快速回忆Stable Diffusion相关关系
+whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.</div><div class=post-footer><a href=/posts/whisper/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/stablediffusionwebui/>咒语生成图片 Stable Diffusion web UI</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-08>2023-08-08</time></span></div><div class=content>简介 旨在个人快速回忆Stable Diffusion相关关系
 Stable Diffusion 是一个深度学习,文转图模型.
 Stable Diffusion web UI 即面向用户提供界面操作工具, 链接为
 https://github.com/AUTOMATIC1111/stable-diffusion-webui
