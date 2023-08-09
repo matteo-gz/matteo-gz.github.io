@@ -20,15 +20,13 @@ OS: Windows package: pip language: python compute Platform: CUDA 教程 https://
 在运行过程避免不了报错,很考验python debug能力。
 初始化
 设置webui-user.bat参数
-set PYTHON= #python文件路径 set GIT= # git文件路径 set VENV_DIR= # venv目录 set COMMANDLINE_ARGS= # 默认不用填 缓存冲突解决
-直接删除./venv/lib/site-packages/下冲突的包,重新运行脚本
-模型位置
-一般放入./models/Stable-diffusion/
-.bat window平台下.bat脚本语法
-:: 这是注释 venv 是Python的一个模块,用于创建隔离的Python环境。
-虚拟环境允许你在同一台计算机上同时管理多个Python项目，每个项目都有自己独立的Python解释器和库。
-这对于避免不同项目之间的依赖冲突非常有用，因为每个虚拟环境都有自己的依赖安装
-# 创建虚拟环境 python3 -m venv myenv # 激活虚拟环境 .</div><div class=post-footer><a href=/posts/stablediffusionwebui/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/gencode/>关于Go代码生成</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-07>2023-08-07</time></span></div><div class=content>目的 Go Kitex提供了自定义模板生成代码,使用起来挺方便的.
+set PYTHON= #python文件路径 set GIT= # git文件路径 set VENV_DIR= # venv目录 set COMMANDLINE_ARGS=--xformers # 启动参数 将python,git的bin path 加入系统环境变量下的path。
+另外确保安装了Microsoft Visual C++ Redistributable vc_redist.x64.exe
+安装过程需要网络稳定,需要下载很多pkg
+缓存冲突解决
+直接删除./venv/lib/site-packages/下冲突的包,重新运行脚本.
+或者命令行搞定
+# 卸载具体包 pip uninstall 具体包 # clean cache pip cache purge 模型位置</div><div class=post-footer><a href=/posts/stablediffusionwebui/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/gencode/>关于Go代码生成</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-07>2023-08-07</time></span></div><div class=content>目的 Go Kitex提供了自定义模板生成代码,使用起来挺方便的.
 有望改造成支持公司内部go代码生成工具
 https://www.cloudwego.io/zh/docs/kitex/tutorials/code-gen/custom_tpl/ 处理要素 cli工具整合 这里推荐2个包,封装了cli和参数解析
 https://github.com/spf13/cobra https://github.com/spf13/pflag 基本数据对象定义 提供了文件生成时的数据渲染对象 PackageInfo
