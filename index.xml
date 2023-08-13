@@ -1,4 +1,16 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Aug 2023 15:19:51 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[How to Get Back Classic (Full) Context Menu in Windows 11
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 12 Aug 2023 11:47:27 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>显卡相关</title><link>https://matteo-gz.github.io/posts/gpu/</link><pubDate>Sat, 12 Aug 2023 11:47:27 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gpu/</guid><description>显卡挑选 原文which gpu for deep learning by Tim Dettmers - 2023/01/30
+对此摘抄了 显卡工作原理 与 显卡关键因素
+算力产品 AutoDL
+显卡工作原理 结论 许多人说GPU快是因为 matrix multiplication 矩阵乘法 和 convolution 卷积 高效,Tim Dettmers认为是memory bandwidth 内存带宽.
+内存带宽优点 CPU是延迟优化的,而GPU是带宽优化的.类比CPU是法拉利,GPU是大卡车, 在从 随机 A点 运货到 随机 B点 过程中,
+CPU可以快速获取 RAM Random Access Memory 中的一些memory,而GPU则更慢(latency 延迟 要高得多), 但是CPU需要多次来回才能完成其工作,而GPU可以一次获取更多memory 内存.
+CPU擅长快速获取少量内存(5 * 3 * 7), 而GPU擅长获取大量内存(矩阵乘法:(A*B)*C).
+最好的CPU有大约 50GB/s,而最好的GPU有 750GB/s 的内存带宽.
+如果计算操作需要的内存越多,GPU相对于CPU的优势就越明显.但是仍然存在可能会损害GPU性能的延迟.
+一辆大卡车每次旅行可能都能拿起很多包裹,但问题是你要等很长时间,直到下一组包裹到达. 如果不解决这个问题,即使对于大量数据,GPU 也会非常慢.那么这个问题是如何解决的呢?
+线程并行 如果你要求一辆大卡车进行多次旅行来取包裹,一旦卡车离开进行下一次旅行,你总是会等待很长时间才能收到下一批包裹——卡车只是很慢.
+但是,如果您现在使用由法拉利和大型卡车组成的车队(线程并行),并且你有很多包裹(大块内存如 matrix 矩阵)的工作,那么你将等待第一辆卡车,
+但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory).</description></item><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[How to Get Back Classic (Full) Context Menu in Windows 11
 reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32 /ve /d &#34;&#34; /f How to remove arrows from shortcuts in Windows 11
 REG ADD &#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34; /v 29 /t REG_SZ /d &#34;&#34; /f ]]></description></item><item><title>llama2模型 类chatGPT产品体验</title><link>https://matteo-gz.github.io/posts/llama/</link><pubDate>Wed, 09 Aug 2023 22:27:59 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/llama/</guid><description>简介 一个语言模型,类似chatGPT. 可以本地部署, 下面列下规格
 7b 需要6～8GB显存 13b 需要13～16GB显存 70b 需要48GB显存,可以2张4090 安装 申请和下载模型 点击 https://huggingface.co/meta-llama
@@ -123,14 +135,4 @@ switch游戏的外挂是金手指这个称呼,可以搜switch对应game的cheat 
 总结 模拟器比较吃cpu资源,很多时候成为瓶颈.相比于switch游戏画面和帧数比较高,而且还可以开作弊码,省去重复的游戏体验。
 switch的优势就是携带游玩方便,类似手机于pc的存在,但是steam deck是linux系统也可以安装模拟器,也有这个优势.
 另一个就是switch可以联网官方服务器游玩比较方便,但是局域网联机游玩模拟器似乎也能做到。
-随着一款游戏的了解,我慢慢发现任天堂的理念是以游戏趣味性为主导,switch设备为游戏圈子所建立的生态, 其他游戏像是一座座高山,但是switch游戏就像一条弯弯曲曲的河流那样的存在</description></item><item><title>Synergy启动在登录前</title><link>https://matteo-gz.github.io/posts/synergy/</link><pubDate>Sat, 06 May 2023 18:51:35 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/synergy/</guid><description><![CDATA[介绍 Synergy是一个模拟键盘和鼠标的软件，我的win和mac都启动时可以用一套键鼠操控。 mac作为Synergy的客户端时，win作为Synergy的服务端使用。
-背景 目前Synergy在登录前软件没有启动,只有登录后启动,导致登录时无法输入密码,因为我的键盘鼠标连接在win上。下面是解决办法
-原理 软件在mac未登录前是root的身份运行，登录后才是选择的用户,在root身份下将软件加入mac的Launch Daemons就可以解决了
-实操 synergy的存放位置是 /Applications/Synergy.app/Contents/MacOS/synergy
-运行命令行启动
-open /Applications/Synergy.app/Contents/MacOS/synergy 时,可以看到启动参数 /Applications/Synergy.app/Contents/MacOS/synergyc -f --no-tray --debug INFO --name &quot;mac&quot; &quot;192.168.50.59:24800&quot;
-修改为Launch Daemons的配置
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt; &lt;plist version=&#34;1.0&#34;&gt; &lt;dict&gt; &lt;key&gt;Label&lt;/key&gt; &lt;string&gt;com.example.hello&lt;/string&gt; &lt;key&gt;ProgramArguments&lt;/key&gt; &lt;array&gt; &lt;string&gt;/Applications/Synergy.app/Contents/MacOS/synergyc&lt;/string&gt; &lt;string&gt;-f&lt;/string&gt; &lt;string&gt;--no-tray&lt;/string&gt; &lt;string&gt;--debug&lt;/string&gt; &lt;string&gt;INFO&lt;/string&gt; &lt;string&gt;--name&lt;/string&gt; &lt;string&gt;mac&lt;/string&gt; &lt;string&gt;192.168.50.59:24800&lt;/string&gt; &lt;/array&gt; &lt;key&gt;KeepAlive&lt;/key&gt; &lt;true/&gt; &lt;/dict&gt; &lt;/plist&gt; ProgramArguments对象下是cli启动参数
-然后以root身份 放入 /Library/LaunchDaemons/ 下,文件名随便起一个com.example.synergy.plist
-这样重启后,就可以在mac上输入密码,当键盘连接在win上时候，因为synergy已经生效
-总结 # 敲root密码 sudo su # 切目录 cd /Library/LaunchDaemons/ #创建文件 touch com.]]></description></item></channel></rss>
+随着一款游戏的了解,我慢慢发现任天堂的理念是以游戏趣味性为主导,switch设备为游戏圈子所建立的生态, 其他游戏像是一座座高山,但是switch游戏就像一条弯弯曲曲的河流那样的存在</description></item></channel></rss>
