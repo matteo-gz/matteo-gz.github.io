@@ -6,13 +6,13 @@
 显卡工作原理 结论 许多人说GPU快是因为 matrix multiplication 矩阵乘法 和 convolution 卷积 高效,Tim Dettmers认为是memory bandwidth 内存带宽.
 内存带宽优点 CPU是延迟优化的,而GPU是带宽优化的.类比CPU是法拉利,GPU是大卡车, 在从 随机 A点 运货到 随机 B点 过程中,
 CPU可以快速获取 RAM Random Access Memory 中的一些memory,而GPU则更慢(latency 延迟 要高得多), 但是CPU需要多次来回才能完成其工作,而GPU可以一次获取更多memory 内存.
-CPU擅长快速获取少量内存(5 * 3 * 7), 而GPU擅长获取大量内存(矩阵乘法:(A*B)*C).
+CPU擅长快速获取少量内存(5 3 7), 而GPU擅长获取大量内存(矩阵乘法:(A*B)*C).
 最好的CPU有大约 50GB/s,而最好的GPU有 750GB/s 的内存带宽.
 如果计算操作需要的内存越多,GPU相对于CPU的优势就越明显.但是仍然存在可能会损害GPU性能的延迟.
 一辆大卡车每次旅行可能都能拿起很多包裹,但问题是你要等很长时间,直到下一组包裹到达. 如果不解决这个问题,即使对于大量数据,GPU 也会非常慢.那么这个问题是如何解决的呢?
 线程并行 如果你要求一辆大卡车进行多次旅行来取包裹,一旦卡车离开进行下一次旅行,你总是会等待很长时间才能收到下一批包裹——卡车只是很慢.
 但是,如果您现在使用由法拉利和大型卡车组成的车队(线程并行),并且你有很多包裹(大块内存如 matrix 矩阵)的工作,那么你将等待第一辆卡车,
-但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory).</div><div class=post-footer><a href=/posts/gpu/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/llama/>llama2模型 类chatGPT产品体验</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-09>2023-08-09</time></span></div><div class=content>简介 一个语言模型,类似chatGPT. 可以本地部署, 下面列下规格
+但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</div><div class=post-footer><a href=/posts/gpu/>Read More</a></div></article><article class="single summary" itemscope itemtype=http://schema.org/Article><h1 class=single-title itemprop="name headline"><a href=/posts/llama/>llama2模型 类chatGPT产品体验</a></h1><div class=post-meta><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Author</a></span>&nbsp;<span class=post-publish>published on <time datetime=2023-08-09>2023-08-09</time></span></div><div class=content>简介 一个语言模型,类似chatGPT. 可以本地部署, 下面列下规格
 7b 需要6～8GB显存 13b 需要13～16GB显存 70b 需要48GB显存,可以2张4090 安装 申请和下载模型 点击 https://huggingface.co/meta-llama
 选择模型 Llama2-chat,13B 下载
 将会跳转到Facebook公司的申请界面,勾选协议,提交申请
