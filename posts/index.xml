@@ -10,9 +10,13 @@ CPU擅长快速获取少量内存(5 3 7), 而GPU擅长获取大量内存(矩阵�
 一辆大卡车每次旅行可能都能拿起很多包裹,但问题是你要等很长时间,直到下一组包裹到达. 如果不解决这个问题,即使对于大量数据,GPU 也会非常慢.那么这个问题是如何解决的呢?
 线程并行 如果你要求一辆大卡车进行多次旅行来取包裹,一旦卡车离开进行下一次旅行,你总是会等待很长时间才能收到下一批包裹——卡车只是很慢.
 但是,如果您现在使用由法拉利和大型卡车组成的车队(线程并行),并且你有很多包裹(大块内存如 matrix 矩阵)的工作,那么你将等待第一辆卡车,
-但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</description></item><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[How to Get Back Classic (Full) Context Menu in Windows 11
-reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32 /ve /d &#34;&#34; /f How to remove arrows from shortcuts in Windows 11
-REG ADD &#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34; /v 29 /t REG_SZ /d &#34;&#34; /f ]]></description></item><item><title>llama2模型 类chatGPT产品体验</title><link>https://matteo-gz.github.io/posts/llama/</link><pubDate>Wed, 09 Aug 2023 22:27:59 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/llama/</guid><description>简介 一个语言模型,类似chatGPT. 可以本地部署, 下面列下规格
+但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</description></item><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[杂项 默认展开win11的右键收缩菜单 How to Get Back Classic (Full) Context Menu in Windows 11
+reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32 /ve /d &#34;&#34; /f window图标快捷箭头优化 How to remove arrows from shortcuts in Windows 11
+REG ADD &#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34; /v 29 /t REG_SZ /d &#34;&#34; /f 分辨率 参考来源 【硬件科普】换了更高分辨率的显示器，软件界面反而模糊-Windows缩放详解
+针对27寸 2K屏幕
+DSR调整 Nvidia control panel &gt;&gt; 3D settings &gt;&gt; Manage 3D settings &gt;&gt; global settings &gt;&gt; DSR-Factors 选择2.25x DL
+显示设置调整 display resolution 选择 3840x2160
+Scale 选择 250%]]></description></item><item><title>llama2模型 类chatGPT产品体验</title><link>https://matteo-gz.github.io/posts/llama/</link><pubDate>Wed, 09 Aug 2023 22:27:59 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/llama/</guid><description>简介 一个语言模型,类似chatGPT. 可以本地部署, 下面列下规格
 7b 需要6～8GB显存 13b 需要13～16GB显存 70b 需要48GB显存,可以2张4090 安装 申请和下载模型 点击 https://huggingface.co/meta-llama
 选择模型 Llama2-chat,13B 下载
 将会跳转到Facebook公司的申请界面,勾选协议,提交申请
