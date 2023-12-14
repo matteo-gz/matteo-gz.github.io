@@ -1,12 +1,15 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 13 Dec 2023 21:16:44 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>socks5 协议</title><link>https://matteo-gz.github.io/posts/socks5/</link><pubDate>Wed, 13 Dec 2023 21:16:44 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/socks5/</guid><description>资料 https://datatracker.ietf.org/doc/html/rfc1928
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 13 Dec 2023 21:16:44 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>socks5 协议</title><link>https://matteo-gz.github.io/posts/socks5/</link><pubDate>Wed, 13 Dec 2023 21:16:44 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/socks5/</guid><description>资料 rfc1928 SOCKS Protocol Version 5
+https://datatracker.ietf.org/doc/html/rfc1928
 socks5目标: TCP 和 UDP 域中的客户端-服务器应用程序提供一个框架，以便方便、安全地使用网络防火墙的服务
+字节序 0x01234567 在字节顺序中表现
+Big-Endian
+0x100: 0x01 0x101: 0x23 0x102: 0x45 0x103: 0x67 Little-Endian
+0x100: 0x67 0x101: 0x45 0x102: 0x23 0x103: 0x01 rfc1929 Username/Password Authentication for SOCKS V5
+https://datatracker.ietf.org/doc/html/rfc1929
 过程 1.TCP连接 3次握手后,客户端 连接 服务端socks5端口1080
 2.协商环节 2.1.客户端发送给服务端 X'05&amp;rsquo; , X开头的数据都是十六进制
 报文格式:
-+----+----------+----------+ |VER | NMETHODS | METHODS | +----+----------+----------+ | 1 | 1 | 1 to 255 | +----+----------+----------+ 字段解释:
-VER 版本号,X'05' NMETHODS 支持的认证方法数量 METHODS 支持的认证方法ID列表 最小3个byte长度:
-package socks5 var ( VER [1]byte NMETHODS [1]byte METHODS [1]byte ) 最大257byte长度:
-package socks5 var ( VER [1]byte NMETHODS [1]byte METHODS [255]byte ) 2.2.服务端响应客户端 +----+--------+ |VER | METHOD | +----+--------+ | 1 | 1 | +----+--------+ 报文格式:</description></item><item><title>显卡相关</title><link>https://matteo-gz.github.io/posts/gpu/</link><pubDate>Sat, 12 Aug 2023 11:47:27 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gpu/</guid><description>显卡挑选 原文which gpu for deep learning by Tim Dettmers - 2023/01/30
++----+----------+----------+ |VER | NMETHODS | METHODS | +----+----------+----------+ | 1 | 1 | 1 to 255 | +----+----------+----------+ 字段解释:</description></item><item><title>显卡相关</title><link>https://matteo-gz.github.io/posts/gpu/</link><pubDate>Sat, 12 Aug 2023 11:47:27 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gpu/</guid><description>显卡挑选 原文which gpu for deep learning by Tim Dettmers - 2023/01/30
 对此摘抄了 显卡工作原理 与 显卡关键因素
 算力产品 AutoDL
 显卡工作原理 结论 许多人说GPU快是因为 matrix multiplication 矩阵乘法 和 convolution 卷积 高效,Tim Dettmers认为是memory bandwidth 内存带宽.
