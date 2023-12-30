@@ -1,4 +1,24 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 13 Dec 2023 21:16:44 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>socks5 协议</title><link>https://matteo-gz.github.io/posts/socks5/</link><pubDate>Wed, 13 Dec 2023 21:16:44 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/socks5/</guid><description>资料 rfc1928 SOCKS Protocol Version 5
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 30 Dec 2023 17:01:21 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>小米解锁BL</title><link>https://matteo-gz.github.io/posts/xiaomiunlock/</link><pubDate>Sat, 30 Dec 2023 17:01:21 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/xiaomiunlock/</guid><description>这个办法是通过闲鱼APP上找人,利用UBL key解锁小米BL.
+此方法需要消耗金钱,即购买UBL key的钱.
+免费的方法为 https://github.com/MlgmXyysd/Xiaomi-HyperOS-BootLoader-Bypass ,但是无法解锁小米14之后的机型.
+准备工作 下载客户端 https://xiaomikey.net/ window环境需要
+下载驱动 https://xiaomiflashtool.com/
+让xiaomikey客户端识别出小米手机,
+理论上xiaomikey软件里面包含了xiaomiflash
+下载ADB https://developer.android.com/tools/releases/platform-tools
+将路径追加尽系统path.
+adb devices 准备刷机 小米手机进入开发者模式 点击系统版本 连续点击5次 即可进入开发者模式
+开发者模式下进行USB调试 要求
+必须登录小米账号 必须插入sim卡 必须使用移动网络 在开发者模式下 打开允许USB调试.
+电脑插入手机,手机选择信任电脑的连接.
+adb进入fastboot模式 # 查看设备 adb devices # 进入fastboot adb reboot bootloader 登录xiaomikey 打开软件,选择 unlock boot- ubl key.
+点击 unlock bootloader
+此时会读取fastboot模式下的小米手机信息.
+此时会生成 UBL token.
+将UBL token 兑换成 UBL key.
+然后填入UBL key 点击apply ubl key 可解锁.
+过程中确保网络能连接小米服务器.
+若操作失败 如果点击unlock bootloader后遇到duplicate token的话</description></item><item><title>socks5 协议</title><link>https://matteo-gz.github.io/posts/socks5/</link><pubDate>Wed, 13 Dec 2023 21:16:44 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/socks5/</guid><description>资料 rfc1928 SOCKS Protocol Version 5
 https://datatracker.ietf.org/doc/html/rfc1928
 socks5目标: TCP 和 UDP 域中的客户端-服务器应用程序提供一个框架，以便方便、安全地使用网络防火墙的服务
 字节序 0x01234567 在字节顺序中表现
@@ -119,24 +139,4 @@ Facebook公司有在用.偏向CP场景
 对象存储 minio
 消息队列 rabbitMQ比较适合业务,
 但是追求高吞吐的kafka,自己必须封装多一层机制来保证业务的一致性.
-后续有的话再更新</description></item><item><title>go微服务框架使用总结</title><link>https://matteo-gz.github.io/posts/goframe/</link><pubDate>Tue, 18 Jul 2023 13:03:09 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/goframe/</guid><description>记录下自己使用下来的go微服务框架,kratos go-zero kitex.
-kratos bilibili公司出品的框架,当年公司内部代码泄漏,现在开源优化已经到了v2版本.
-参考了DDD,Clean Architecture 设计理念.
-项目结构清晰,每一层级的角色定位清晰,没有全局变量污染,还引入了wire进行依赖倒置.
-data层暴露了clean up函数对资源句柄进行回收.
-框架层与业务层解耦,框架生命周期感知清晰.
-组件开放接口设计,扩展性强
-服务使用的是GRPC+Protocol Buffer, 同一服务进程下暴露了GRPC端口和HTTP端口.
-HTTP是通过protoc组件protoc-gen-go-http反射路由到同一RPC方法.
-框架整体设计比较轻量,适合自己组合微服务方案.
-总结 适合团队有架构组的人使用,前期需要自己组合方案,整合组件.后期基本完善,使用体验良好. HTTP层建议使用gin框架,因为protoc-gen-go-http适合开发阶段调试用,重度需求满足不了,自己做适配一路都是新坑.
-Go-zero 一个公司CTO主推项目,加入了CNCF.
-HTTP单独部署一个项目,路由方法定义通过编写.api后缀文件(Go-zero定义的语法)实现.
-他们的设计理念是实用性.
-总结 生产上能用。对于定制化业务,直接fork他们官方的cli工具,然后公司内部修改维护该仓库.
-Kitex 字节跳动公司的开源项目,分RPC框架Kitex和HTTP框架Hertz.
-2个框架是2个团队的产物,设计规范不一致.
-框架替换原有了go/net设计,实现高性能.(生产稳定性需要查阅官方资料验证)
-IDL支持Thrift,官方对Thrift的支持度很高,因为他们内部使用Thrift,但也支持Protobuf.
-他们的设计理念是高性能
-总结 Kitex只是cloudwego组织下子项目,Thrift不是特别吸引我, 希望cloudwego/netpoll能封装成一个适配性高组件.</description></item></channel></rss>
+后续有的话再更新</description></item></channel></rss>
