@@ -1,4 +1,6 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 30 Dec 2023 17:01:21 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>小米解锁BL</title><link>https://matteo-gz.github.io/posts/xiaomiunlock/</link><pubDate>Sat, 30 Dec 2023 17:01:21 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/xiaomiunlock/</guid><description>这个办法是通过闲鱼APP上找人,利用UBL key解锁小米BL.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 08 Feb 2024 10:20:57 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Go metrics</title><link>https://matteo-gz.github.io/posts/gometrics/</link><pubDate>Thu, 08 Feb 2024 10:20:57 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gometrics/</guid><description><![CDATA[导入包 go get -u github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 注册路由 // 导入pkg import &#34;github.com/prometheus/client_golang/prometheus/promhttp&#34; // http 服务注册此路由 router.Handle(&#34;/metrics&#34;, promhttp.Handler()) 验证是否引入metrics curl /metrics 可以看到默认的数据
+定义一个指标 var _metricRequests = prometheus.NewCounterVec(prometheus.CounterOpts{ Namespace: &#34;server&#34;, Subsystem: &#34;requests&#34;, Name: &#34;code_total&#34;, Help: &#34;The total number of processed requests&#34;, }, []string{&#34;kind&#34;, &#34;operation&#34;, &#34;code&#34;, &#34;reason&#34;}) 注册该指标 import &#34;github.com/prometheus/client_golang/prometheus&#34; prometheus.MustRegister(_metricRequests) 使用指标 var requests = prom.NewCounter(_metricRequests) requests.With(&#34;get&#34;, &#34;/&#34;, &#34;200&#34;, &#34;OK&#34;).Inc() 验证定义指标是否生效 当我们使用完指标后 即可查看
+# HELP server_requests_code_total The total number of processed requests # TYPE server_requests_code_total counter server_requests_code_total{code=&#34;200&#34;,kind=&#34;get&#34;,operation=&#34;/&#34;,reason=&#34;OK&#34;} 1 具体代码 https://github.]]></description></item><item><title>小米解锁BL</title><link>https://matteo-gz.github.io/posts/xiaomiunlock/</link><pubDate>Sat, 30 Dec 2023 17:01:21 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/xiaomiunlock/</guid><description>这个办法是通过闲鱼APP上找人,利用UBL key解锁小米BL.
 此方法需要消耗金钱,即购买UBL key的钱.
 免费的方法为 https://github.com/MlgmXyysd/Xiaomi-HyperOS-BootLoader-Bypass ,但是无法解锁小米14之后的机型.
 准备工作 下载客户端 https://xiaomikey.net/ window环境需要
@@ -111,32 +113,4 @@ linters集成 https://golangci-lint.run/ 提高代码质量
 IDL https://protobuf.dev/ 利用protobuf提供接口和配置的定义.
 验证项目得分 https://goreportcard.com/
 评估项含
-gofmt go vet go lint gocyclo ]]></description></item><item><title>聊天系统设计调研</title><link>https://matteo-gz.github.io/posts/im/</link><pubDate>Mon, 07 Aug 2023 12:23:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/im/</guid><description>总体架构分层
-接入层,无状态 逻辑层 存储层 这里是参考了陌陌设计
-连接层 这里有2种方案选择
-WebSocket MQTT 关于MQTT,有EMQX中间件.
-消息上线可以走HTTP接口,即客户端发给服务端消息
-消息下行可以走EMQX订阅主题,即服务端推送消息给客户端
-连接层属于无状态,支持水平扩展.
-逻辑层 通用消息格式定制
-以及业务路由分发决策
-设计规则
-不丢消息 需要业务ACK机制
-消息去重 服务端与客户端都需要做到
-时序一致性 可以用snowflake算法.
-利用局部性原理减少id生成器压力,有利于水平扩展
-缓存设计 由于实时系统,基本上有一层cache,类似内核系统的buffer。
-多级缓冲,面向c端场景的话一般链路不会太长,而且要考虑数据回种,分布式一致性挑战.
-大概local cache -&amp;gt; redis （读写分离)-&amp;gt; database（读写分离)
-其他考虑场景 接入APP推送 接入风控 数据多端同步 多条消息打包与压缩格式设计 万人大群的数据扇出 明星突发性空降某频道 数据埋点监控 系统自动扩容 存储层 离线消息 如果需求量不大,Mysql即可以解决.
-聊天应用的读写比例大概是1:1.
-数据库 Cassandra
-Discord公司有在用.偏向AP场景
-HBase
-Facebook公司有在用.偏向CP场景
-个人想法 前期用Mysql,但是封装一层接口,为后期数据库迁移作准备.
-大数据库选择要还看云数据库商支持程度,说不定还有其他云产品合适.
-对象存储 minio
-消息队列 rabbitMQ比较适合业务,
-但是追求高吞吐的kafka,自己必须封装多一层机制来保证业务的一致性.
-后续有的话再更新</description></item></channel></rss>
+gofmt go vet go lint gocyclo ]]></description></item></channel></rss>
