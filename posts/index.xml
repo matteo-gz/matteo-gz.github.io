@@ -1,4 +1,31 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 08 Feb 2024 10:20:57 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Go metrics</title><link>https://matteo-gz.github.io/posts/gometrics/</link><pubDate>Thu, 08 Feb 2024 10:20:57 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gometrics/</guid><description><![CDATA[导入包 go get -u github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 注册路由 // 导入pkg import &#34;github.com/prometheus/client_golang/prometheus/promhttp&#34; // http 服务注册此路由 router.Handle(&#34;/metrics&#34;, promhttp.Handler()) 验证是否引入metrics curl /metrics 可以看到默认的数据
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 27 Apr 2024 18:17:11 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>排查网络</title><link>https://matteo-gz.github.io/posts/network_check/</link><pubDate>Sat, 27 Apr 2024 18:17:11 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/network_check/</guid><description>检查TCP端口连通性 nc -vz www.example.com 80 v是verbose mode
+使用-z参数快速扫描端口状态,是否开放
+window下powershell Test-NetConnection -ComputerName 127.0.0.1 -Port 6379
+检查网络延时 mtr baidu.com -r 数字单位是ms,r是report的意思
+ping ping检查范围限于ICMP协议
+kill端口 window
+# 寻找占用80端口 netstat -ano |findstr 80 # kill进程 taskkill /f /pid 28020 找到进程的启动命令 window环境
+wmic process where &amp;#34;processid=1323&amp;#34; get processid,commandline</description></item><item><title>Redis实操记录</title><link>https://matteo-gz.github.io/posts/redis/</link><pubDate>Sat, 27 Apr 2024 00:18:43 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/redis/</guid><description>redis架构 目的: 针对不同的业务特性,选择合适的架构.
+单机模式 一台redis节点,适合本地使用.
+若机器挂了则无解.
+主从模式 一台写节点,多台从节点,适合多读少写场景.
+若写压力上来,则无解.
+哨兵模式 写节点自动转移,满足高可用.适合多读少写场景.
+若写压力上来,则有瓶颈.写节点挂了会转移,写节点会故障一段时间. 若不彻底解决写压力,无法根治问题.
+集群模式 属于分布式架构,可以堆机器解决写压力.
+redis连接数 目的: 提高应用性能,避免频繁的创建和销毁连接.
+使用redis连接池.
+需要埋点redis连接池的命中率.
+若空闲连接持续为空,则明显连接数不够用需要提升.
+根据业务压测,确定redis连接数的合理范围.
+关闭连接 当应用关闭时,记得close连接.
+redis缓存策略 获取redis缓存策略 config get maxmemory-policy 默认是noeviction
+LRU与LFU算法 Least Recently Used :最近最少使用 Least Frequently Used : 最近最不常用 阿里云的redis策略是选择volatile-lru
+redis.conf
+maxmemory-policy volatile-lru 查询redis的热点key lfu算法下可使用redis-cli --hotkeys,查询redis的热点key.
+线上排查 查找大key redis-cli --bigkeys
+设置慢日志 # 慢日志长度 CONFIG GET slowlog-max-len # 设置 慢日志长度 CONFIG SET slowlog-max-len 128 设置慢日志时间
+# 单位时间为微妙 CONFIG SET slowlog-log-slower-than 10000 获取慢日志</description></item><item><title>Go metrics</title><link>https://matteo-gz.github.io/posts/gometrics/</link><pubDate>Thu, 08 Feb 2024 10:20:57 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gometrics/</guid><description><![CDATA[导入包 go get -u github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 注册路由 // 导入pkg import &#34;github.com/prometheus/client_golang/prometheus/promhttp&#34; // http 服务注册此路由 router.Handle(&#34;/metrics&#34;, promhttp.Handler()) 验证是否引入metrics curl /metrics 可以看到默认的数据
 定义一个指标 var _metricRequests = prometheus.NewCounterVec(prometheus.CounterOpts{ Namespace: &#34;server&#34;, Subsystem: &#34;requests&#34;, Name: &#34;code_total&#34;, Help: &#34;The total number of processed requests&#34;, }, []string{&#34;kind&#34;, &#34;operation&#34;, &#34;code&#34;, &#34;reason&#34;}) 注册该指标 import &#34;github.com/prometheus/client_golang/prometheus&#34; prometheus.MustRegister(_metricRequests) 使用指标 var requests = prom.NewCounter(_metricRequests) requests.With(&#34;get&#34;, &#34;/&#34;, &#34;200&#34;, &#34;OK&#34;).Inc() 验证定义指标是否生效 当我们使用完指标后 即可查看
 # HELP server_requests_code_total The total number of processed requests # TYPE server_requests_code_total counter server_requests_code_total{code=&#34;200&#34;,kind=&#34;get&#34;,operation=&#34;/&#34;,reason=&#34;OK&#34;} 1 具体代码 https://github.]]></description></item><item><title>小米解锁BL</title><link>https://matteo-gz.github.io/posts/xiaomiunlock/</link><pubDate>Sat, 30 Dec 2023 17:01:21 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/xiaomiunlock/</guid><description>这个办法是通过闲鱼APP上找人,利用UBL key解锁小米BL.
 此方法需要消耗金钱,即购买UBL key的钱.
@@ -83,34 +110,4 @@ set PYTHON= #python文件路径 set GIT= # git文件路径 set VENV_DIR= # venv�
 缓存冲突解决
 直接删除./venv/lib/site-packages/下冲突的包,重新运行脚本.
 或者命令行搞定
-# 卸载具体包 pip uninstall 具体包 # clean cache pip cache purge 模型位置</description></item><item><title>关于Go代码生成</title><link>https://matteo-gz.github.io/posts/gencode/</link><pubDate>Mon, 07 Aug 2023 16:24:58 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gencode/</guid><description>目的 Go Kitex提供了自定义模板生成代码,使用起来挺方便的.
-有望改造成支持公司内部go代码生成工具
-https://www.cloudwego.io/zh/docs/kitex/tutorials/code-gen/custom_tpl/ 处理要素 cli工具整合 这里推荐2个包,封装了cli和参数解析
-https://github.com/spf13/cobra https://github.com/spf13/pflag 基本数据对象定义 提供了文件生成时的数据渲染对象 PackageInfo
-模板渲染使用html/template语法
-额外参数在context中解析 cli传递参数过多会带来复杂性,需要额外的.json文件数据提供在上下文中解析.
-多模板文件定义 通过指定目录加载其下所有模板文件
-模板文件格式为.yaml
-生成的文件路径也支持变量解析.
-其中能独立定义新增代码部分
-统一入口 初始化和更新行为都为同一命令,减少处理成本
-额外点 多任务并行处理文件生成 跨平台支持</description></item><item><title>go pkg包设计</title><link>https://matteo-gz.github.io/posts/component/</link><pubDate>Mon, 07 Aug 2023 15:28:13 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/component/</guid><description><![CDATA[设计考虑 以下是个人的建议,随便看看了解下
-context支持 一般入参数context是第一个参数,提供了timeout机制
-logger接口定义 在组件的初始化时,将使用方的日志实例进行接口约束,
-要求实现其debug,error级别method.
-可以参考gorm的logger设计
-hook注入 方便使用方对metric的收集,可以参考redis hook设计
-布局了解 这里只是提供参考建议
-go官方 https://github.com/golang-standards/project-layout 知道internal目录对内部系统的保护
-链接 https://go.dev/doc/go1.4#internalpackages 跨平台支持 查看支持平台
-go tool dist list 条件编译约束
-//go:build (linux &amp;&amp; 386) || (darwin &amp;&amp; !cgo) https://pkg.go.dev/cmd/go#hdr-Build_constraints
-linters集成 https://golangci-lint.run/ 提高代码质量
-版本约束 具体查看 https://go.dev/ref/mod#versions
-依赖注入 https://github.com/google/wire
-使得依赖关系变得整洁
-参数配置 Functional Options Pattern,代码优雅
-IDL https://protobuf.dev/ 利用protobuf提供接口和配置的定义.
-验证项目得分 https://goreportcard.com/
-评估项含
-gofmt go vet go lint gocyclo ]]></description></item></channel></rss>
+# 卸载具体包 pip uninstall 具体包 # clean cache pip cache purge 模型位置</description></item></channel></rss>
