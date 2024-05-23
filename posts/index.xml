@@ -1,4 +1,5 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 27 Apr 2024 18:17:11 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>排查网络</title><link>https://matteo-gz.github.io/posts/network_check/</link><pubDate>Sat, 27 Apr 2024 18:17:11 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/network_check/</guid><description>检查TCP端口连通性 nc -vz www.example.com 80 v是verbose mode
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 23 May 2024 17:44:27 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>supervisor搭建</title><link>https://matteo-gz.github.io/posts/supervisor/</link><pubDate>Thu, 23 May 2024 17:44:27 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/supervisor/</guid><description>pip install supervisor echo_supervisord_conf &amp;gt; /etc/supervisord.conf vim /etc/supervisord.conf append
+[program:process1] command=/root/process1 autorestart=true supervisord -c /etc/supervisord.conf supervisorctl start process1 supervisorctl stop process1</description></item><item><title>排查网络</title><link>https://matteo-gz.github.io/posts/network_check/</link><pubDate>Sat, 27 Apr 2024 18:17:11 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/network_check/</guid><description>检查TCP端口连通性 nc -vz www.example.com 80 v是verbose mode
 使用-z参数快速扫描端口状态,是否开放
 window下powershell Test-NetConnection -ComputerName 127.0.0.1 -Port 6379
 检查网络延时 mtr baidu.com -r 数字单位是ms,r是report的意思
@@ -91,23 +92,4 @@ python虚拟环境 # 创建python虚拟环境 python -m venv ./venv # 进行pyth
 # 卸载纯cpu版 pip uninstall torch # clean cache pip cache purge # copy from https://pytorch.org/get-started/locally/ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 再次验证 whisper -h
 &ndash;device # 如果默认是cuda 则证明成功
 运行demo
-whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.]]></description></item><item><title>咒语生成图片 Stable Diffusion web UI</title><link>https://matteo-gz.github.io/posts/stablediffusionwebui/</link><pubDate>Tue, 08 Aug 2023 11:20:56 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/stablediffusionwebui/</guid><description>简介 旨在个人快速回忆Stable Diffusion相关关系
-Stable Diffusion 是一个深度学习,文转图模型.
-Stable Diffusion web UI 即面向用户提供界面操作工具, 链接为
-https://github.com/AUTOMATIC1111/stable-diffusion-webui
-其中该界面为英语,支持汉化插件
-https://github.com/VinsonLaro/stable-diffusion-webui-chinese
-PyTorch 官网 https://pytorch.org/ 是一个深度学习的框架
-我的安装选择
-OS: Windows package: pip language: python compute Platform: CUDA 教程 https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki
-启动 下载完web UI后,运行webui-user.bat即可
-在运行过程避免不了报错,很考验python debug能力。
-初始化
-设置webui-user.bat参数
-set PYTHON= #python文件路径 set GIT= # git文件路径 set VENV_DIR= # venv目录 set COMMANDLINE_ARGS=--xformers # 启动参数 将python,git的bin path 加入系统环境变量下的path。
-另外确保安装了Microsoft Visual C++ Redistributable vc_redist.x64.exe
-安装过程需要网络稳定,需要下载很多pkg
-缓存冲突解决
-直接删除./venv/lib/site-packages/下冲突的包,重新运行脚本.
-或者命令行搞定
-# 卸载具体包 pip uninstall 具体包 # clean cache pip cache purge 模型位置</description></item></channel></rss>
+whisper {vocieFile} --model large-v2 --model_dir {modelPath} \ --ourput_dir {outputDir} --output_format txt --device cuda --language Chinese 界面版 界面版 https://github.]]></description></item></channel></rss>
