@@ -1,4 +1,15 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 29 May 2024 00:21:12 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>linux压测配置优化</title><link>https://matteo-gz.github.io/posts/press_linux/</link><pubDate>Wed, 29 May 2024 00:21:12 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/press_linux/</guid><description><![CDATA[背景 临时租赁服务器,进行灰度压测,进行大量并发cURL.测试机器压榨单机极限性能.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 14 Aug 2024 07:33:07 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Go 内存泄漏排查</title><link>https://matteo-gz.github.io/posts/memprofiling/</link><pubDate>Wed, 14 Aug 2024 07:33:07 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/memprofiling/</guid><description>背景 某次发版后,生产机器的内存相比之前相同负载条件下使用率高,业务无异常影响. 而后带来的影响是,数据库连接资源随着pod数量提升占用提高.
+间接处理 回滚版本 每隔固定时间定时重新发版 把所有依赖pkg升级至最新,把Go版本升级至最新 服务拆分,让业务链路保持简单. 直接处理 排查内存泄漏与修复 思路 复现生产环境场景 在测试环境里,对比此次版本的功能改动点进行压测,难以压测的直接for循环将变动函数调用增加10倍来调试或者将time.ticker的频率放大10倍.
+使用pyroscope分析 pyroscope https://pyroscope.io/ 是基于golang的pprof工具进行采集.
+使用pprof go官方自带的工具 https://github.com/google/pprof
+使用perf perf是个经典的分析工具, https://github.com/google/perf_data_converter 可以将perf的分析报告转化为pprof的格式进行分析
+pprof着手分析 下载heap分析文件 接入pprof后,可用curl下载分析文件 curl -o heapfile http://localhost/debug/pprof/heap?seconds=30 . 上述命令可捕获30秒的堆文件分析.
+查看pprof官方自带文档 关于pprof的使用说明,请务必看完 https://github.com/google/pprof/blob/main/doc/README.md 该文讲述了
+pprof字段 flat cum 代表的含义. 可通过web的方式进行UI交互或者cli方式交互. go tool pprof -http :8810 heapfile 调用图里面的颜色,矩形大小,矩形边缘粗细,虚线箭头和实线箭头的含义解释 可对比2个时间段的pprof文件,go tool pprof --base base.heap current.heap 内存采样率控制 runtime.MemProfileRate 采样率控制.
+假设runtime.MemProfileRate=N,那么采样为1/N进行.如果觉得采样率小了,可以在测试环境进行调整.
+空闲 Heap http://localhost/debug/pprof/heap?debug=1 有个HeapIdle指标.
+下载go官方源码用IDE打开即可明白各个指标的含义,比如HeapIdle .
+HeapIdle = HeapSys - heapInUse</description></item><item><title>linux压测配置优化</title><link>https://matteo-gz.github.io/posts/press_linux/</link><pubDate>Wed, 29 May 2024 00:21:12 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/press_linux/</guid><description><![CDATA[背景 临时租赁服务器,进行灰度压测,进行大量并发cURL.测试机器压榨单机极限性能.
 修改单进程句柄限制 查看进程最大文件数 # 查看进程最大文件数 ulimit -n 修改进程最大文件数 ulimit -SHn 1048576 S 表示设置软限制（soft limit）。软限制是指系统允许进程使用的资源上限，但进程可以尝试超过这个限制。 H 表示设置硬限制（hard limit）。硬限制是指系统绝对允许进程使用的资源上限，即使进程尝试超过这个限制，系统也会阻止它。 n 表示设置进程可以打开的文件描述符的最大数量 # 防止重启后失效 echo ulimit -HSn 1048576 &gt;&gt; /etc/rc.local echo ulimit -HSn 1048576 &gt;&gt;/root/.bash_profile ulimit影响因素 fs.nr_open;进程最大文件描述符数 fs.file-max;系统最大文件描述符数 修改/etc/sysctl.conf # /etc/sysctl.conf fs.file-max = 1048576 fs.nr_open=1048576 nf_conntrack_max 开启 防止配置net.nf_conntrack_max报错
 # 校验conntrack是否开启 lsmod |grep conntrack # 开启 ip_conntrack modprobe ip_conntrack /etc/sysctl.conf配置修改 # 套接字优化 # 每个套接字的缓冲区大小 net.core.optmem_max= 81920 # 套接字接收缓冲区大小 net.core.rmem_max=513920 # 套接字发送缓冲区大小 net.core.wmem_max=513920 # TCP 接收缓冲区大小 net.]]></description></item><item><title>linux排查</title><link>https://matteo-gz.github.io/posts/linux_debug/</link><pubDate>Sat, 25 May 2024 14:45:53 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/linux_debug/</guid><description>Linux性能优化实战 笔记 https://time.geekbang.org/column/intro/100020901
 模拟工具 stress stress 是一个 Linux 系统压力测试工具，这里我们用作异常进程模拟平均负载升高的场景
@@ -79,10 +90,4 @@ CPU擅长快速获取少量内存(5 3 7), 而GPU擅长获取大量内存(矩阵�
 一辆大卡车每次旅行可能都能拿起很多包裹,但问题是你要等很长时间,直到下一组包裹到达. 如果不解决这个问题,即使对于大量数据,GPU 也会非常慢.那么这个问题是如何解决的呢?
 线程并行 如果你要求一辆大卡车进行多次旅行来取包裹,一旦卡车离开进行下一次旅行,你总是会等待很长时间才能收到下一批包裹——卡车只是很慢.
 但是,如果您现在使用由法拉利和大型卡车组成的车队(线程并行),并且你有很多包裹(大块内存如 matrix 矩阵)的工作,那么你将等待第一辆卡车,
-但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</description></item><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[杂项 默认展开win11的右键收缩菜单 How to Get Back Classic (Full) Context Menu in Windows 11
-reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32 /ve /d &#34;&#34; /f window图标快捷箭头优化 How to remove arrows from shortcuts in Windows 11
-REG ADD &#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34; /v 29 /t REG_SZ /d &#34;&#34; /f 分辨率 参考来源 【硬件科普】换了更高分辨率的显示器，软件界面反而模糊-Windows缩放详解
-针对27寸 2K屏幕
-DSR调整 Nvidia control panel &gt;&gt; 3D settings &gt;&gt; Manage 3D settings &gt;&gt; global settings &gt;&gt; DSR-Factors 选择2.25x DL
-显示设置调整 display resolution 选择 3840x2160
-Scale 选择 250%]]></description></item></channel></rss>
+但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</description></item></channel></rss>
