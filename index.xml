@@ -1,4 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 14 Aug 2024 07:33:07 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Go 内存泄漏排查</title><link>https://matteo-gz.github.io/posts/memprofiling/</link><pubDate>Wed, 14 Aug 2024 07:33:07 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/memprofiling/</guid><description>背景 某次发版后,生产机器的内存相比之前相同负载条件下使用率高,业务无异常影响. 而后带来的影响是,数据库连接资源随着pod数量提升占用提高.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>matteo's blog</title><link>https://matteo-gz.github.io/</link><description>This is my cool site</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 Feb 2025 20:43:04 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Clickhouse</title><link>https://matteo-gz.github.io/posts/clickhouse/</link><pubDate>Sun, 09 Feb 2025 20:43:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/clickhouse/</guid><description><![CDATA[Clickhouse作为一种数据仓库的产品.
+优点 文档清晰且有AI问答工具. 入门难度很低,拥有Mysql的经验即可. 阿里云也有其产品可以购买,生产稳定,出问题概率低. 数据压缩,存储成本低. 索引速度快. 可以直接录入Mysql作为data source. 交互协议上支持Http协议,伪Mysql协议和原生高性能协议. GUI推荐 DataGrip.
+SQL操作 数据管理利用TTL特性进行数据回收.
+数据分布 查询
+select * from system.parts limit 10; # 目前转移的数据 select * from system.mutations; 计算表大小 SELECT total_bytes/total_rows, table,database, formatReadableSize(total_bytes) AS total_bytes_on_disk FROM system.tables WHERE table = &#39;table&#39;; 表转移 RENAME TABLE database.exist_table TO database.old_table, database.new_table TO database.exist_table; 数据回收 ALTER TABLE database.table DROP PARTITION &#39;20240925&#39;; 修改TTL ALTER TABLE database.table MODIFY TTL timestamp + toIntervalMonth(2); 查看表结构 SELECT name AS field_name, table AS table_name, type AS field_type, comment AS field_comment FROM system.]]></description></item><item><title>Go 内存泄漏排查</title><link>https://matteo-gz.github.io/posts/memprofiling/</link><pubDate>Wed, 14 Aug 2024 07:33:07 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/memprofiling/</guid><description>背景 某次发版后,生产机器的内存相比之前相同负载条件下使用率高,业务无异常影响. 而后带来的影响是,数据库连接资源随着pod数量提升占用提高.
 间接处理 回滚版本 每隔固定时间定时重新发版 把所有依赖pkg升级至最新,把Go版本升级至最新 服务拆分,让业务链路保持简单. 直接处理 排查内存泄漏与修复 思路 复现生产环境场景 在测试环境里,对比此次版本的功能改动点进行压测,难以压测的直接for循环将变动函数调用增加10倍来调试或者将time.ticker的频率放大10倍.
 使用pyroscope分析 pyroscope https://pyroscope.io/ 是基于golang的pprof工具进行采集.
 使用pprof go官方自带的工具 https://github.com/google/pprof
@@ -78,16 +82,4 @@ https://datatracker.ietf.org/doc/html/rfc1929
 过程 1.TCP连接 3次握手后,客户端 连接 服务端socks5端口1080
 2.协商环节 2.1.客户端发送给服务端 X'05&amp;rsquo; , X开头的数据都是十六进制
 报文格式:
-+----+----------+----------+ |VER | NMETHODS | METHODS | +----+----------+----------+ | 1 | 1 | 1 to 255 | +----+----------+----------+ 字段解释:</description></item><item><title>显卡相关</title><link>https://matteo-gz.github.io/posts/gpu/</link><pubDate>Sat, 12 Aug 2023 11:47:27 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/gpu/</guid><description>显卡挑选 原文which gpu for deep learning by Tim Dettmers - 2023/01/30
-对此摘抄了 显卡工作原理 与 显卡关键因素
-算力产品 AutoDL
-显卡工作原理 结论 许多人说GPU快是因为 matrix multiplication 矩阵乘法 和 convolution 卷积 高效,Tim Dettmers认为是memory bandwidth 内存带宽.
-内存带宽优点 CPU是延迟优化的,而GPU是带宽优化的.类比CPU是法拉利,GPU是大卡车, 在从 随机 A点 运货到 随机 B点 过程中,
-CPU可以快速获取 RAM Random Access Memory 中的一些memory,而GPU则更慢(latency 延迟 要高得多), 但是CPU需要多次来回才能完成其工作,而GPU可以一次获取更多memory 内存.
-CPU擅长快速获取少量内存(5 3 7), 而GPU擅长获取大量内存(矩阵乘法:(A*B)*C).
-最好的CPU有大约 50GB/s,而最好的GPU有 750GB/s 的内存带宽.
-如果计算操作需要的内存越多,GPU相对于CPU的优势就越明显.但是仍然存在可能会损害GPU性能的延迟.
-一辆大卡车每次旅行可能都能拿起很多包裹,但问题是你要等很长时间,直到下一组包裹到达. 如果不解决这个问题,即使对于大量数据,GPU 也会非常慢.那么这个问题是如何解决的呢?
-线程并行 如果你要求一辆大卡车进行多次旅行来取包裹,一旦卡车离开进行下一次旅行,你总是会等待很长时间才能收到下一批包裹——卡车只是很慢.
-但是,如果您现在使用由法拉利和大型卡车组成的车队(线程并行),并且你有很多包裹(大块内存如 matrix 矩阵)的工作,那么你将等待第一辆卡车,
-但在那之后你将根本没有等待时间 — 卸载包裹需要花费大量时间,以至于所有卡车都将在卸载位置B排队,以便你始终可以直接访问你的包裹(memory). 这有效地隐藏了延迟,以便GPU提供高带宽,同时在线程并行性下隐藏其延迟 — 因此对于大块内存,GPU提供最佳的内存带宽, 同时几乎没有由于线程并行延迟而导致的缺点.</description></item></channel></rss>
++----+----------+----------+ |VER | NMETHODS | METHODS | +----+----------+----------+ | 1 | 1 | 1 to 255 | +----+----------+----------+ 字段解释:</description></item></channel></rss>
