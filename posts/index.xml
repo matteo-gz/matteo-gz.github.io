@@ -1,5 +1,6 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>All Posts - matteo's blog</title><link>https://matteo-gz.github.io/posts/</link><description>All Posts | matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 22 Jun 2025 14:58:36 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>go大小压缩</title><link>https://matteo-gz.github.io/posts/binsize/</link><pubDate>Sun, 22 Jun 2025 14:58:36 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/binsize/</guid><description>官方自带 go build -ldflags &amp;#39;-s -w&amp;#39; upx 降低 https://github.com/upx/upx 要选择最新版本,有优化效果
-upx -9 ./your-bin 减少包依赖大小 大小分析 https://github.com/Zxilly/go-size-analyzer
+upx -9 ./your-bin 这个推荐在服务端使用,客户端不可控(会遇到运行不起来case).
+减少包依赖大小 大小分析 https://github.com/Zxilly/go-size-analyzer
 # download go install github.com/Zxilly/go-size-analyzer/cmd/gsa@latest # 分析大小 gsa --web ./your-bin 依赖分析 go mod graph</description></item><item><title>Clickhouse</title><link>https://matteo-gz.github.io/posts/clickhouse/</link><pubDate>Sun, 09 Feb 2025 20:43:04 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/clickhouse/</guid><description><![CDATA[Clickhouse作为一种数据仓库的产品.
 优点 文档清晰且有AI问答工具. 入门难度很低,拥有Mysql的经验即可. 阿里云也有其产品可以购买,生产稳定,出问题概率低. 数据压缩,存储成本低. 索引速度快. 可以直接录入Mysql作为data source. 交互协议上支持Http协议,伪Mysql协议和原生高性能协议. GUI推荐 DataGrip.
 SQL操作 数据管理利用TTL特性进行数据回收.
