@@ -1,7 +1,20 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>personal preference - Category - matteo's blog</title><link>https://matteo-gz.github.io/categories/personal-preference/</link><description>personal preference - Category - matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Aug 2023 15:19:51 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/categories/personal-preference/" rel="self" type="application/rss+xml"/><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>Author</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[杂项 默认展开win11的右键收缩菜单 How to Get Back Classic (Full) Context Menu in Windows 11
-reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32 /ve /d &#34;&#34; /f window图标快捷箭头优化 How to remove arrows from shortcuts in Windows 11
-REG ADD &#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34; /v 29 /t REG_SZ /d &#34;&#34; /f 分辨率 参考来源 【硬件科普】换了更高分辨率的显示器，软件界面反而模糊-Windows缩放详解
-针对27寸 2K屏幕
-DSR调整 Nvidia control panel &gt;&gt; 3D settings &gt;&gt; Manage 3D settings &gt;&gt; global settings &gt;&gt; DSR-Factors 选择2.25x DL
-显示设置调整 display resolution 选择 3840x2160
-Scale 选择 250%]]></description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Personal Preference - Category - matteo's blog</title><link>https://matteo-gz.github.io/categories/personal-preference/</link><description>Personal Preference - Category - matteo's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Aug 2023 15:19:51 +0800</lastBuildDate><atom:link href="https://matteo-gz.github.io/categories/personal-preference/" rel="self" type="application/rss+xml"/><item><title>Window偏好优化</title><link>https://matteo-gz.github.io/posts/win/</link><pubDate>Fri, 11 Aug 2023 15:19:51 +0800</pubDate><author>xxxx</author><guid>https://matteo-gz.github.io/posts/win/</guid><description><![CDATA[<h2 id="杂项">杂项</h2>
+<h3 id="默认展开win11的右键收缩菜单">默认展开win11的右键收缩菜单</h3>
+<p><a href="https://www.winhelponline.com/blog/get-classic-full-context-menu-windows-11/" target="_blank" rel="noopener noreffer ">How to Get Back Classic (Full) Context Menu in Windows 11</a></p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-shell">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">reg add HKCU<span class="se">\S</span>oftware<span class="se">\C</span>lasses<span class="se">\C</span>LSID<span class="se">\{</span>86ca1aa0-34aa-4e8b-a509-50c905bae2a2<span class="o">}</span><span class="se">\I</span>nprocServer32 /ve /d <span class="s2">&#34;&#34;</span> /f</span></span></code></pre></div></div>
+<h3 id="window图标快捷箭头优化">window图标快捷箭头优化</h3>
+<p><a href="https://www.msftnext.com/how-to-remove-arrows-from-shortcuts-in-windows-11/" target="_blank" rel="noopener noreffer ">How to remove arrows from shortcuts in Windows 11</a></p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-shell">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">REG ADD <span class="s2">&#34;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&#34;</span> /v <span class="m">29</span> /t REG_SZ /d  <span class="s2">&#34;&#34;</span> /f</span></span></code></pre></div></div>
+<h2 id="分辨率">分辨率</h2>
+<blockquote>
+<p>参考来源 <a href="https://www.bilibili.com/video/BV1bw41117xL/" target="_blank" rel="noopener noreffer ">【硬件科普】换了更高分辨率的显示器，软件界面反而模糊-Windows缩放详解</a></p>]]></description></item></channel></rss>
